@@ -86,13 +86,14 @@ def login():
 
     if row is None: #email doesn't exist
         conn.close()
-        return jsonify({'status': 'error', 'message': 'Email does not exist'})
+        return render_template('login.html', show_error=True, error_message='Email does not exist')
     elif row[2] == password: # password matches
         conn.close()
-        return jsonify({'status': 'success', 'message': 'Login successful!'})
+        return render_template('landing.html')  
+
     else: # password doesn't match (duh)
         conn.close()
-        return jsonify({'status': 'error', 'message': 'Incorrect password'})
+        return render_template('login.html', show_error=True, error_message='Password is incorrect')
   
 def printuserdata():
     conn = sqlite3.connect('frontend/Backend/userdata.db')
