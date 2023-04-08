@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template, url_for, redirect, flash
+import re
 import sqlite3
 from frontend import app
 
@@ -56,6 +57,9 @@ def signup():
     password = request.form['pass']
     password2 = request.form['confirm-pass']
 
+    if not valid_email(email):
+        return render_template('signup.html', show_error=True, error_message='Email is invalid')
+    
     conn = sqlite3.connect('frontend/Backend/userdata.db')
     c = conn.cursor()
 
@@ -69,6 +73,7 @@ def signup():
         c.execute(f"INSERT INTO userdata (email, password) VALUES ('{email}', '{password}');")
         conn.commit()
         conn.close()
+        current_user = email
         return render_template('landing.html')  
 
     conn.close()
@@ -78,6 +83,9 @@ def signup():
 def login():
     email = request.form['email']
     password = request.form['pass']
+
+    if not valid_email(email):
+        return render_template('login.html', show_error=True, error_message='Email is invalid')
 
     conn = sqlite3.connect('frontend/Backend/userdata.db')
     c = conn.cursor()
@@ -89,6 +97,7 @@ def login():
         return render_template('login.html', show_error=True, error_message='Email does not exist')
     elif row[1] == password: # password matches
         conn.close()
+        current_user = email
         return render_template('landing.html')  
 
     else: # password doesn't match (duh)
@@ -104,3 +113,7 @@ def printuserdata():
     for row in rows:
         print(row)
     conn.close()
+
+def valid_email(email):
+    regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(regex, email)
