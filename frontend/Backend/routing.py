@@ -87,7 +87,7 @@ def login():
     if row is None: #email doesn't exist
         conn.close()
         return render_template('login.html', show_error=True, error_message='Email does not exist')
-    elif row[2] == password: # password matches
+    elif row[1] == password: # password matches
         conn.close()
         return render_template('landing.html')  
 
