@@ -56,24 +56,22 @@ def signup():
     password = request.form['pass']
     password2 = request.form['confirm-pass']
 
+    conn = sqlite3.connect('frontend/Backend/userdata.db')
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM userdata WHERE email=?", (email,))
+    row = c.fetchone()
+
     if password != password2: 
-        flash('Passwords do not match', 'error')
         return render_template('signup.html', show_error=True, error_message='Passwords do not match')
 
     elif row is None: #email doesn't exist yet
-        conn = sqlite3.connect('frontend/Backend/userdata.db')
-        c = conn.cursor()
-
-        c.execute("SELECT * FROM userdata WHERE email=?", (email,))
-        row = c.fetchone()
-
         c.execute(f"INSERT INTO userdata (email, password) VALUES ('{email}', '{password}');")
-        flash('Signup success!', 'success')
         conn.commit()
         conn.close()
         return render_template('landing.html')  
 
-    flash('Email already exists')
+    conn.close()
     return render_template('signup.html', show_error=True, error_message='Email already exists')
         
 @app.route('/login', methods=['POST'])
