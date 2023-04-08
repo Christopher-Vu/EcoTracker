@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, url_for, redirect, flash
+from flask import Flask, request, render_template, session
 import re
 import sqlite3
 from frontend import app
@@ -12,44 +12,52 @@ conn.commit()
 conn.close()
 """
 
+logged = False
 current_user = None
 
 # Route user to the proper page 
 @app.route('/')
 def home():
-    return render_template('landing.html')
+    return render_template('landing.html', logged_in=logged)
 
 @app.route('/landing.html')
 def landing():
-    return render_template('landing.html')
+    return render_template('landing.html', logged_in=logged)
+
+@app.route('/logged_out.html')
+def log_out():
+    logged, current_user=False, None
+    return render_template('landing.html', logged_in=False)
 
 @app.route('/calculator.html')
 def calculator_page():
-    return render_template('calculator.html')
+    return render_template('calculator.html', logged_in=logged)
 
 @app.route('/login.html')
 def login_page():
-    return render_template('login.html')
+    return render_template('login.html', logged_in=logged)
 
 @app.route('/signup.html')
 def signup_page():
-    return render_template('signup.html')
+    return render_template('signup.html', logged_in=logged)
 
 @app.route('/logger.html')
 def logger_page():
+    if not logged: return render_template('signup.html', show_error=True, error_message="Signup to use logger")
     return render_template('logger.html')
 
 @app.route('/sources.html')
 def sources_page():
-    return render_template('sources.html')
+    return render_template('sources.html', logged_in=logged)
 
 @app.route('/stats.html')
 def stats_page():
+    if not logged: return render_template('signup.html', show_error=True, error_message="Signup to see stats")
     return render_template('stats.html')
 
 @app.route('/tasks.html')
 def tasks_page():
-    return render_template('tasks.html')
+    return render_template('tasks.html', logged_in=logged)
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -73,8 +81,8 @@ def signup():
         c.execute(f"INSERT INTO userdata (email, password) VALUES ('{email}', '{password}');")
         conn.commit()
         conn.close()
-        current_user = email
-        return render_template('landing.html')  
+        current_user, logged = email, True
+        return render_template('landing.html', logged_in=True)  
 
     conn.close()
     return render_template('signup.html', show_error=True, error_message='Email already exists')
@@ -97,8 +105,8 @@ def login():
         return render_template('login.html', show_error=True, error_message='Email does not exist')
     elif row[1] == password: # password matches
         conn.close()
-        current_user = email
-        return render_template('landing.html')  
+        current_user, logged = email, True
+        return render_template('landing.html', logged_in=True)  
 
     else: # password doesn't match (duh)
         conn.close()
