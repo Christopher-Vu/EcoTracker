@@ -16,7 +16,7 @@ body {
 }
 
 /*Static images that the main static portion doesn't move with (like a parallax)*/
-.bgimg-1, .bgimg-2, .bgimg-3, .bgimg-4, .bgimg-5 {
+.bgimg-1, .bgimg-2, .bgimg-3, .bgimg-4, .bgimg-5, .bgimg-6 {
     position: relative;
     background-attachment: scroll;
     min-height: 400px;
@@ -55,6 +55,10 @@ body {
 
 .bgimg-5 {
     background-image: url("images/dry_river.png");
+}
+
+.bgimg-6 {
+    background-image: url("images/wilfire-3.jpg");
 }
 
 .small{
@@ -207,7 +211,7 @@ a, a:active {
     padding-bottom: 10px;
 }
 
-.bwsubmit { /*bwsubmit means big white submit :)*/
+.bwsubmit { /*bwsubmit means big white submit*/
     border: none;
     border-radius: 30px;
     width: 100%;
