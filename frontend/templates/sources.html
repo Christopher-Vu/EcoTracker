@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, intial-scale=1.0">
+        <meta name="author" content="Christopher Vu">
+        <meta name="description" content="Sources Used in the Creation of EcoTracker">
+
+        <link rel="icon" href="images/Icon.png" type="image">
+        <link href="https://fonts.googleapis.com/css2?family=Hepta+Slab&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/static/style.css" type="text/css">
+        <title>EcoTracker | Sources</title>
+    </head>
+
+    <body>
+        <div class="top-section">
+            <div class="navbar">
+                <a href="landing.html" class="navbar-item" style="color: #000;">HOME ⌂</a>
+                <a href="calculator.html" class="navbar-item" style="color: #000;">CALCULATOR 🖩</a>
+                <a href="logger.html" class="navbar-item" style="color: #000;">LOGGER ✎</a>
+                <a href="stats.html" class="navbar-item" style="color: #000;">STATS α</a>
+                <a href="tasks.html" class="navbar-item" style="color: #000;">TASKS ☞</a>
+                <a href="sources.html" class="navbar-item" style="color: #000;">SOURCES 🕮</a>
+
+                {% if not logged_in %}
+                    <a href="login.html" class="navbar-item" style="float:right; color:black;">LOG IN</a>
+                    <a href="signup.html" class="navbar-item" style="float:right; color:black;">SIGN UP</a>
+                {% endif %}
+
+                {% if logged_in %}
+                    <a href="logged_out.html" class="navbar-item" style="float:right; color:black;">LOG OUT</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!--First background image-->
+        <div class="bgimg-5 opacity">
+            <div class="display-middle">
+                <span class="central-text">S O U R C E S</span> 
+            </div>
+
+        <!--First text section (the problem)-->
+            <div class="static-text" style="top: 100vh;">
+                <h2 class="center">SOURCES</h2>
+                <hr>
+                <p class="center small">Sources Used in the Making of EcoTracker</p>
+                <br>
+                <p style="text-align: center;">
+                    Dycian, Yaron. “The Carbon Footprint of Water.” WINT, 14 Mar. 2023, https://wint.ai/blog/the-carbon-footprint-of-water/#:~:text=The%20energy%20requirement%2C%20combined%20with,the%20%E2
+                    %80%9Crespect%E2%80%9D%20it%20deserves. <br><br>
+                    Aviation Emissions, https://www.carbonindependent.org/22.html#:~:text=At%20a%20cruising%20speed%20of,
+                    Distance%3A%205556%20km. <br><br>
+                    ICCT. Fact Sheet: Gasoline vs. Diesel - International Council on Clean ... https://theicct.org/wp-content/uploads/2022/01/Gas-_v-_Diesel_-CO2_emissions_-EN_-Fact-_Sheet-2019_05_07_0.pdf. <br><br>
+                    “5 Environmental Benefits of Sustainable Transportation.” Transportation, 28 Feb. 2023, https://transportation.ucla.edu/blog/5-environmental-benefits-sustainable-transportation#:~:text=Compared%20with%20driving%20alone%2C%20taking,
+                    atmosphere%20and%20improving%20air%20quality. <br>
+                    U.S. Energy Information Administration. (2021). Average Retail Price of Electricity to Residential Sector, Total by State, Year-to-Date through August 2021 and 2020. https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_6_a<br><br>
+
+                    U.S. Environmental Protection Agency. (2021). Inventory of U.S. Greenhouse Gas Emissions and Sinks: 1990-2019. https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2019<br><br>
+
+                    U.S. Energy Information Administration. “How much carbon dioxide is produced from U.S. electricity generation?” EIA, 2021, https://www.eia.gov/tools/faqs/faq.php?id=74&t=11.<br><br>
+
+                    Ritchie, Hannah. “You Want to Reduce the Carbon Footprint of Your Food? Focus on What You Eat, Not Whether Your Food Is Local.” Our World in Data, 24 Jan. 2020, https://ourworldindata.org/food-choice-vs-eating-local. <br><br>
+
+                    Global Carbon Project. (2020). Carbon Budget 2020. https://essd.copernicus.org/articles/12/3269/2020/<br><br>
+
+                    Intergovernmental Panel on Climate Change. “Global Warming of 1.5 ºC.” IPCC, 2018, www.ipcc.ch/sr15/.<br><br>
+
+                    Le Quéré, Corinne, et al. “Global Carbon Budget 2021.” Earth System Science Data, vol. 13, no. 12, 2021, pp. 6397–6483., doi:10.5194/essd-13-6397-2021.<br><br>
+
+                    United Nations Environment Programme. “Emissions Gap Report 2021.” UNEP, 2021, www.unep.org/emissions-gap-report-2021.<br><br>
+
+                    United States Environmental Protection Agency. “Individual Action.” EPA, 2022, www.epa.gov/individual-action.<br><br>
+
+                    World Wildlife Fund. “How to Reduce Your Carbon Footprint.” WWF, 2022, www.worldwildlife.org/pages/how-to-reduce-your-carbon-footprint.<br><br>
+
+                    FAO (2013). Tackling climate change through livestock – A global assessment of emissions and mitigation opportunities. Rome.
+                </p>
+
+                <hr>
+            </div>
+    </body>
+</html>
