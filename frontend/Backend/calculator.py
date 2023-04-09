@@ -1,3 +1,5 @@
+import math
+
 def goods(clothing, electronics, furniture, other):
     # input in 1000s of dollars spent, output as tons of CO2
     return (clothing * 1.2) + (2.8 * electronics) + (2.2 * furniture) + (2.12 * other)
@@ -19,3 +21,5 @@ def transport(Dmiles, Dmpg, Gmiles, Gmpg, flight_hours, transit_miles): # the D 
     transit_tons = transit_miles * 0.00022526
     return Dtons + Gtons + flight_hours + transit_miles
 
+def avg_footprint(people, annual_income):
+    return (math.log10(people + 1) + 1) * (21.4104 + (annual_income * 0.000322351))
