@@ -77,7 +77,7 @@ def signup():
         c.execute(f"INSERT INTO userdata (email, password) VALUES ('{email}', '{password}');")
         session['current_user'], session['logged'] = replace_email_chars(email), True
 
-        c.execute(f"CREATE TABLE {replace_email_chars(email)} (date TEXT, period TEXT, footprint TEXT, tpy TEXT, comparison TEXT, comparison_context TEXT);")
+        c.execute(f"CREATE TABLE {replace_email_chars(email)} (date TEXT, period TEXT, footprint TEXT, tpy TEXT, comparison TEXT, comparison_context TEXT, avg_footprint TEXT, goods TEXT, food TEXT, energy TEXT, water TEXT, transport TEXT);")
         conn.commit()
         conn.close()
         
@@ -124,10 +124,10 @@ def logger():
 
     conn = sqlite3.connect('frontend/Backend/userdata.db')
     c = conn.cursor()
-    c.execute(f"INSERT INTO {session['current_user']} (date, period, footprint, tpy, comparison, comparison_context) VALUES ('{request.form['date']}', '{days}', '{total_footprint}', '{tpy}', '{comparison}', '{context}');")
+    c.execute(f"INSERT INTO {session['current_user']} (date, period, footprint, tpy, comparison, comparison_context) VALUES ('{request.form['date']}', '{days}', '{total_footprint}', '{tpy}', '{comparison}', '{context}', '{avg_footprint}', '{goods}', '{food}', '{energy}', '{water}', '{transport}');")
     conn.commit()
     conn.close()
-    
+
     return render_template('logger.html', logged_in=session.get('logged', False))
 
 @app.route('/message', methods=['POST'])
