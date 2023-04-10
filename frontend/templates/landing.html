@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>EcoTracker</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, intial-scale=1.0">
+        <meta name="author" content="Christopher Vu">
+        <meta name="description" content="For the Calculation and Reduction of your Carbon Footprint">
+
+        <link rel="icon" href="/static/images/Icon.png" type="image">
+        <link href="https://fonts.googleapis.com/css2?family=Hepta+Slab&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/static/style.css" type="text/css">
+    </head>
+
+    <body>
+        <!--Navigation (stuck to the top of the page)-->
+        <div class="top-section">
+            <div class="navbar">
+                <a href="landing.html" class="navbar-item">HOME ⌂</a>
+                <a href="calculator.html" class="navbar-item">CALCULATOR 🖩</a>
+                <a href="logger.html" class="navbar-item">LOGGER ✎</a>
+                <a href="stats.html" class="navbar-item">STATS α</a>
+                <a href="tasks.html" class="navbar-item">TASKS ☞</a>
+                <a href="sources.html" class="navbar-item">SOURCES 🕮</a>
+
+                {% if not logged_in %}
+                    <a href="login.html" class="navbar-item" style="float:right;">LOG IN</a>
+                    <a href="signup.html" class="navbar-item" style="float:right;">SIGN UP</a>
+                {% endif %}
+
+                {% if logged_in %}
+                    <a href="logged_out.html" class="navbar-item" style="float:right;">LOG OUT</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!--Background is fixed to create the scrolling effect thingy.-->
+        <div class="bgimg-1 opacity">
+            <div class="display-middle">
+                <span class="central-text">E C O T R A C K E R</span> 
+                <br>
+                <span class="small" style="color: #FFF">by christopher vu</span>
+            </div>
+
+        <!--Self explanatory; styled to be hidden on opening the page (rest of the landing page follows the 
+            same pattern as lines 31-62)-->
+            <div class="static-text" style="top: 100vh;">
+                <h2 class="center">THE PROBLEM</h2>
+                <hr>
+                <p class="center small">Carbon Emissions and Global Warming</p>
+                <br>
+                <p>&emsp;Climate change is a global crisis that poses a threat to all life on our planet. One of the driving
+                    forces behind global warming each and every one of our <b>carbon footprints</b>; the greenhouse gas emissions
+                    we produce. The current trajectory of emissions is leading us towards a bleak future that is marked by 
+                    unprecedented levels of environmental destruction and suffering. </p>
+
+                <p>&emsp;The burning of fossil fuels is the primary source of carbon emissions, which trap heat in the atmosphere 
+                    and cause <b>permanent shifts in weather patterns</b>. Despite the indisputable evidence on the dangers of climate 
+                    change and the general acceptance of its dangers, carbon continues to be emitted by individuals at an 
+                    alarming rate. Engrained within our everyday activites, such as driving or consuming meat and dairy, 
+                    lies substantial contribute to carbon emissions.</p>
+                    
+                <p>&emsp;Record-breaking <b>heatwaves</b>, more frequent and intense <b>natural disasters</b>, and <b>rising sea levels</b> threatening 
+                    coastal communities mark the onset of the effects of climate change. Coupled with these environment impacts 
+                    are social and economic problems, including food and water scarcity, displacement of people, and economic 
+                    losses. Without urgent action to reduce carbon emissions, the our future is nonexistent.</p>
+            </div>
+        </div>
+
+        <div class="static-text" style="top: 170vh;">
+            <h2 class="center">OUR SOLUTION</h2>
+            <hr>
+            <p class="center small">For the Calculation and Reduction of your Footprint</p>
+            <br>
+            <p>&emsp;EcoTracker is a way to accuratley <b>quantify your carbon footprint</b>, compare it to the carbon footprint
+                of others, and measure your improvement or regression over time. Using our carbon calculator, you can determine
+                how much any particular carbon emitting activity damages our environment.
+            </p>
+
+            <p>&emsp;After setting up an account and logging in, a logger will be available to document your carbon emissions 
+                in real time. These measurement will be saved, and used to generate statistics to <b>track your emissions</b> hold
+                you accountable for your contributions to our global struggle.
+            </p>
+                
+            <p>&emsp;To encourage you to maintain lower carbon emissions, a task system has been implemented to walk you through
+                sustainable practices in <b>bite-sized assignments</b> rather than forcing large commitments and lifestyle changes. 
+            </p>
+        </div>
+        
+        <div class="bgimg-2 opacity">
+            <div class="display-middle">
+                <span class="central-text">T H E . S O L U T I O N</span> 
+            </div>
+        </div>
+
+        <div class="static-text" style="top: 175vh;">
+            <h2 class="center">THE GOAL</h2>
+            <hr>
+            <p class="center small">The Necessary Action, Quantified</p>
+            <br>
+            <p>&emsp;Reversing or stopping climate change will require significant action on a global scale. The 
+                Intergovernmental Panel on Climate Change (IPCC) states that in order to limit global warming to 1.5 degrees 
+                Celsius above pre-industrial levels, carbon emissions must be reduced by 45% by 2030 and <b>reach net-zero by 2050</b>. 
+                This requires a rapid and large-scale transition away from fossil fuels towards renewable energy, as well as 
+                significant changes in land use and agriculture practices.
+            </p>
+
+            <p>&emsp;Individuals play a significant role in reducing carbon emissions by making changes to their daily habits 
+                and lifestyle choices. According to the Global Carbon Project, the average carbon footprint per person is 
+                approximately <b>4.9 metric tons of CO2 per year (16 tons in the US)</b>. Some estimates suggests that average carbon foorprints should be
+                2 tons or less yearly, while the IPCC has recommended that global carbon emissions must reach net-zero by 2050.
+            </p>
+                
+            <p>&emsp;Individuals need to lower their carbon footprints in order to mitigate the impacts of climate change and 
+                ensure a sustainable future for ourselves and future generations.
+            </p>
+        </div>
+
+        <div class="bgimg-3 opacity">
+            <div class="display-middle">
+                <span class="central-text">T H E . G O A L</span> 
+            </div>
+        </div>
+
+        <div class="static-text" style="top: 165vh; text-align: center;">
+            <h2 class="center">Contact</h2>
+            <hr>
+            <p class="center small">Feedback is Appreciated</p>
+            <p>✉ Email: ChristopherVu4@gmail.com<br>
+                &lt;/> Github: https://github.com/ChrisMV2007<br>
+                🕮 Sources: <a href="sources.html"><b class="underlined">Sources</b></a>
+            </p>
+            
+            <form action="/message" method="post" name="message">
+                <input type="text" id="name" name="name" placeholder="Name" class="forms" style="width: 24vh;" required>
+                
+                <input type="email" id="email" name="email" placeholder="Email" class="forms" style="width: 24vh;" required><br>
+                
+                <textarea id="message" name="message" rows="4" cols="50" placeholder="Message" class="forms" style="width: 51vh; margin-top: 1vh;" required></textarea><br>
+
+                <div style="text-align: center;">
+                    <input type="submit" class="bbbutton" style="width: 30%" value="✉ SUBMIT"> <!--Big Black Button-->
+                </div>
+            </form>
+            <br>
+            <hr>
+
+            <p>Thank you for reading about the problem and our solution. <br>It's time to <a href="signup.html" class="underlined" style="font-weight: bold;">reduce your emissions.</a></p>
+        </div>
+
+        <div class="bgimg-4 opacity">
+            <span class="central-text display-middle">C O N T A C T</span> 
+        </div>
+
+    </body>
+</html>

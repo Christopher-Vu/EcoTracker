@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css2?family=Hepta+Slab&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/static/style.css" type="text/css">
+        <link rel="icon" href="/static/images/Icon.png" type="image">
+        <title>EcoTracker | Login</title>
+    </head>
+
+    <body class="login-body" style="color: #FFF;">
+        <div class="top-section">
+            <div class="navbar">
+                <a href="landing.html" class="navbar-item" style="color: #000;">HOME ⌂</a>
+                <a href="calculator.html" class="navbar-item" style="color: #000;">CALCULATOR 🖩</a>
+                <a href="logger.html" class="navbar-item" style="color: #000;">LOGGER ✎</a>
+                <a href="stats.html" class="navbar-item" style="color: #000;">STATS α</a>
+                <a href="tasks.html" class="navbar-item" style="color: #000;">TASKS ☞</a>
+                <a href="sources.html" class="navbar-item" style="color: #000;">SOURCES 🕮</a>
+
+                {% if not logged_in %}
+                    <a href="login.html" class="navbar-item" style="float:right; color:#000;">LOG IN</a>
+                    <a href="signup.html" class="navbar-item" style="float:right; color:#000;">SIGN UP</a>
+                {% endif %}
+
+                {% if logged_in %}
+                    <a href="logged_out.html" class="navbar-item" style="float:right; color: black;">LOG OUT</a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="login-flexbox"> <!--I watched an hour long course to learn flexbox this is like a 15 minute topic MAX-->
+            <div class="login-box-2">
+                <div class="login-header">
+                    <header class="login-title">Login</header>
+                </div>
+
+                <form action="/login" method="post" name="login-info">
+                    <div class="login-field">
+                        <input type="text" class="login-input" placeholder="Email" name="email" required>
+                    </div>
+                    <div class="login-field">
+                        <input type="text" class="login-input" placeholder="Password" name="pass" required>
+                    </div>
+                    <div class="login-field">
+                        <input type="submit" class="bwsubmit" value="login">
+                    </div>
+                    
+                    <div class="bottom">
+                        <div class="flex-center">
+                            <span class="no-account"><a href="signup.html">Don't have an account?</a></span>
+                        </div>
+                    </div>
+                </form>
+
+                {% if show_error %}
+                    <div class="error">⚠ {{ error_message }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>EcoTracker | Stats</title>
+        <link href="https://fonts.googleapis.com/css2?family=Hepta+Slab&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/static/style.css" type="text/css">
+        <link rel="icon" href="/static/images/Icon.png" type="image">
+    </head>
+
+    <body>
+        <div class="top-section">
+            <div class="navbar">
+                <a href="landing.html" class="navbar-item">HOME ⌂</a>
+                <a href="calculator.html" class="navbar-item">CALCULATOR 🖩</a>
+                <a href="logger.html" class="navbar-item">LOGGER ✎</a>
+                <a href="stats.html" class="navbar-item">STATS α</a>
+                <a href="tasks.html" class="navbar-item">TASKS ☞</a>
+                <a href="sources.html" class="navbar-item">SOURCES 🕮</a>
+
+                {% if not logged_in %}
+                    <a href="login.html" class="navbar-item" style="float:right;">LOG IN</a>
+                    <a href="signup.html" class="navbar-item" style="float:right;">SIGN UP</a>
+                {% endif %}
+
+                {% if logged_in %}
+                    <a href="logged_out.html" class="navbar-item" style="float:right;">LOG OUT</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="bgimg-8 opacity">
+            <div class="display-middle">
+                <span class="central-text">S T A T S</span> 
+            </div>
+
+            <div class="static-text" style="top: 100vh;">
+                <h2 class="center">STATS</h2>
+                <hr>
+                <p class="center small">Statistics</p>
+                <br>
+                {% if not is_data %}
+                <p>When you log some data via the logger, stats will show here.</p>
+                {% endif %}
+            
+                {% if is_data %}
+                {{ stat_string|safe }}
+                {% endif %}
+                <hr>
+            </div>
+        </div>
+    </body>
+</html>
