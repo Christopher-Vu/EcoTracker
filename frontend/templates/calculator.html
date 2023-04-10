@@ -143,7 +143,23 @@
                         <p class="leading-text">That's</p>
                         <p class="big-text">{{ comparison }}</p>
                         <p class="con-text">{{ comparison_context }}</p>
+                        <hr>
+                        <h3>Footprint Distribution</h3>
                         <p>Click on the calculator tab again to make another calculation.</p>
+                    </div>
+                    <hr>
+
+                    <div class="graph">
+                        <p class="graph-label">Emission Sources</p>
+                        <img src="{{ 'data:image/png;base64,' + pie_chart }}">
+                    </div>
+
+                    <div class="calc-stats">
+                        <h2 class="center">{{area}}</h2>
+                        <hr>
+                        <p class="center small">The Biggest Contributor To Your Emissions</p>
+                        <br>
+                        <p>{{solution}}</p>
                     </div>
                 {% endif %}
             </div>
