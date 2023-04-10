@@ -6,15 +6,6 @@ import frontend.Backend.calculator as calc
 from frontend.Backend.stats import generate_stats
 from frontend.Backend.tasks import tasks
 
-#Establish connection/cursor, create database (leaving this code here just for ease of addition in the future)
-"""
-conn = sqlite3.connect('frontend/Backend/userdata.db')
-c = conn.cursor()
-c.execute("CREATE TABLE userdata (email TEXT,password TEXT);")
-conn.commit()
-conn.close()
-"""
-
 # Route user to the proper page 
 @app.route('/')
 def home():
@@ -122,43 +113,21 @@ def login():
 
 @app.route('/calculator', methods=['POST'])
 def calculator():
-    avg_footprint = calc.avg_footprint(int(request.form['people']), float(request.form['income']))
-    goods = calc.goods(float(request.form['clothing']), float(request.form['electronics']), float(request.form['furniture']), float(request.form['other']))
-    food = calc.food(float(request.form['beef']), float(request.form['meat']), float(request.form['other']))
-    energy = calc.energy(float(request.form['electricity_bill']), float(request.form['cpkwh']), float(request.form['clean_percent']))
-    water = calc.water(float(request.form['water_bill']), float(request.form['cpg']))
-    transport = calc.transport(float(request.form['Dmiles']), float(request.form['Dmpg']), float(request.form['Gmiles']), float(request.form['Gmpg']), float(request.form['flight_hours']), float(request.form['transit']))
-    days = float(request.form['time'])
+    avg_footprint, goods, food, energy, water, transport, days, total_footprint, tpy, comparison, context = calculate()
 
-    total_footprint = round(goods + food + energy + water + transport, 2)
-    tpy = round(total_footprint / days * 365, 2)
-    comparison = tpy / avg_footprint
-    if comparison > 1: comparison, context = f'{round(abs(comparison - 1) * 100, 2)}%', 'worse than average'
-    else: comparison, context = f'{round(abs(1 - comparison) * 100, 2)}%', 'better than average'
     return render_template('calculator.html', submitted = True, footprint = total_footprint, tpy = tpy, comparison = comparison, comparison_context=context, logged_in=session.get('logged', False))
 
 
 @app.route('/logger', methods=['POST'])
 def logger():
-    avg_footprint = calc.avg_footprint(int(request.form['people']), float(request.form['income']))
-    goods = calc.goods(float(request.form['clothing']), float(request.form['electronics']), float(request.form['furniture']), float(request.form['other']))
-    food = calc.food(float(request.form['beef']), float(request.form['meat']), float(request.form['other']))
-    energy = calc.energy(float(request.form['electricity_bill']), float(request.form['cpkwh']), float(request.form['clean_percent']))
-    water = calc.water(float(request.form['water_bill']), float(request.form['cpg']))
-    transport = calc.transport(float(request.form['Dmiles']), float(request.form['Dmpg']), float(request.form['Gmiles']), float(request.form['Gmpg']), float(request.form['flight_hours']), float(request.form['transit']))
-    days = float(request.form['time'])
-
-    total_footprint = round(goods + food + energy + water + transport, 2)
-    tpy = round(total_footprint / days * 365, 2)
-    comparison = tpy / avg_footprint
-    if comparison > 1: comparison, context = f'{round(abs(comparison - 1) * 100, 2)}%', 'worse than average'
-    else: comparison, context = f'{round(abs(1 - comparison), 2)}%', 'better than average'
+    avg_footprint, goods, food, energy, water, transport, days, total_footprint, tpy, comparison, context = calculate()
 
     conn = sqlite3.connect('frontend/Backend/userdata.db')
     c = conn.cursor()
     c.execute(f"INSERT INTO {session['current_user']} (date, period, footprint, tpy, comparison, comparison_context) VALUES ('{request.form['date']}', '{days}', '{total_footprint}', '{tpy}', '{comparison}', '{context}');")
     conn.commit()
     conn.close()
+    
     return render_template('logger.html', logged_in=session.get('logged', False))
 
 @app.route('/message', methods=['POST'])
@@ -188,3 +157,21 @@ def valid_email(email):
     
 def replace_email_chars(email):
     return email.replace('@', '_').replace('.', '_')
+
+def calculate():
+    avg_footprint = calc.avg_footprint(int(request.form['people']), float(request.form['income']))
+    goods = calc.goods(float(request.form['clothing']), float(request.form['electronics']), float(request.form['furniture']), float(request.form['other']))
+    food = calc.food(float(request.form['beef']), float(request.form['meat']), float(request.form['other']))
+    energy = calc.energy(float(request.form['electricity_bill']), float(request.form['cpkwh']), float(request.form['clean_percent']))
+    water = calc.water(float(request.form['water_bill']), float(request.form['cpg']))
+    transport = calc.transport(float(request.form['Dmiles']), float(request.form['Dmpg']), float(request.form['Gmiles']), float(request.form['Gmpg']), float(request.form['flight_hours']), float(request.form['transit']))
+    days = float(request.form['time'])
+
+    total_footprint = round(goods + food + energy + water + transport, 2)
+    tpy = round(total_footprint / days * 365, 2)
+    comparison = tpy / avg_footprint
+
+    if comparison > 1: comparison, context = f'{round(abs(comparison - 1) * 100, 2)}%', 'worse than average'
+    else: comparison, context = f'{round(abs(1 - comparison) * 100, 2)}%', 'better than average'
+    
+    return avg_footprint, goods, food, energy, water, transport, days, total_footprint, tpy, comparison, context
