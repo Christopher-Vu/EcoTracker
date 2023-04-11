@@ -6,6 +6,7 @@ from frontend import app
 import frontend.Backend.calculator as calc
 from frontend.Backend.stats import generate_stats, problem_area
 from frontend.Backend.tasks import tasks
+import pandas as pd
 from frontend.Backend.graphs import footprint_pie
 
 # Route user to the proper page 
@@ -46,11 +47,33 @@ def sources_page():
 
 @app.route('/stats.html')
 def stats_page():
+    # date, period, footprint, tpy, comparison, comparison_context, avg_footprint, goods, food, energy, water, transport
     if not session.get('logged'): return render_template('signup.html', show_error=True, error_message="Signup to see stats")
+    
+    avg_footprint, goods, food, energy, water, transport, days, total_footprint, tpy, comparison, context = calculate()
+
+    pie_chart = footprint_pie(goods, food, energy, water, transport)
+    pie_chart = base64.b64encode(pie_chart).decode('utf-8')
+    area, solution = problem_area(goods, food, energy, water, transport)    
+
+    conn = sqlite3.connect("frontend/Backend/userdata.db")
+    table_name = session["current_user"]
+
+    query = f"SELECT * FROM {table_name}"
+    data = pd.read_sql_query(query, conn)
+    conn.close()
+
+    first_row = data.iloc[0].tolist()
+    
+    return render_template('stats.html', logged_in=session.get('logged', False))
+
+@app.route("/data.html")
+def data():
+    if not session.get('logged'): return render_template('signup.html', show_error=True, error_message="Signup to see data")
     stat_string = generate_stats(session.get('current_user'))
     is_data = False
     if stat_string!="": is_data=True
-    return render_template('stats.html', stat_string = stat_string, is_data=is_data, logged_in=session.get('logged', False))
+    return render_template('data.html', stat_string = stat_string, is_data=is_data, logged_in=session.get('logged', False))
 
 @app.route('/tasks.html')
 def tasks_page():
@@ -117,10 +140,10 @@ def login():
 def calculator():
     avg_footprint, goods, food, energy, water, transport, days, total_footprint, tpy, comparison, context = calculate()
     pie_chart = footprint_pie(goods, food, energy, water, transport)
-    pie_chart = base64.b64encode(pie_chart).decode('utf-8')
+    base64_pie_chart = base64.b64encode(pie_chart).decode('utf-8')
     area, solution = problem_area(goods, food, energy, water, transport)
 
-    return render_template('calculator.html', submitted = True, footprint = total_footprint, tpy = tpy, comparison = comparison, comparison_context=context, logged_in=session.get('logged', False), pie_chart=pie_chart, area=area, solution=solution)
+    return render_template('calculator.html', submitted = True, footprint = total_footprint, tpy = tpy, comparison = comparison, comparison_context=context, logged_in=session.get('logged', False), pie_chart=base64_pie_chart, area=area, solution=solution)
 
 
 @app.route('/logger', methods=['POST'])
