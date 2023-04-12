@@ -7,7 +7,7 @@ import frontend.Backend.calculator as calc
 from frontend.Backend.stats import generate_stats, problem_area
 from frontend.Backend.tasks import tasks
 import pandas as pd
-from frontend.Backend.graphs import footprint_pie
+from frontend.Backend.graphs import footprint_pie, footprint_vs_average, stacked_footprint, line_by_category
 
 # Route user to the proper page 
 @app.route('/')
@@ -50,12 +50,6 @@ def stats_page():
     # date, period, footprint, tpy, comparison, comparison_context, avg_footprint, goods, food, energy, water, transport
     if not session.get('logged'): return render_template('signup.html', show_error=True, error_message="Signup to see stats")
     
-    avg_footprint, goods, food, energy, water, transport, days, total_footprint, tpy, comparison, context = calculate()
-
-    pie_chart = footprint_pie(goods, food, energy, water, transport)
-    pie_chart = base64.b64encode(pie_chart).decode('utf-8')
-    area, solution = problem_area(goods, food, energy, water, transport)    
-
     conn = sqlite3.connect("frontend/Backend/userdata.db")
     table_name = session["current_user"]
 
@@ -63,9 +57,31 @@ def stats_page():
     data = pd.read_sql_query(query, conn)
     conn.close()
 
-    first_row = data.iloc[0].tolist()
+    data['goods'] = data['goods'].astype(float)
+    data['food'] = data['food'].astype(float)
+    data['water'] = data['water'].astype(float)
+    data['energy'] = data['energy'].astype(float)
+    data['transport'] = data['transport'].astype(float)
+    data['period'] = data['period'].astype(float)
+    data['footprint'] = data['footprint'].astype(float)
+    data['tpy'] = data['tpy'].astype(float)
+    data['avg_footprint'] = data['avg_footprint'].astype(float)
+
+    goods = data['goods'].sum()
+    food = data['food'].sum()
+    energy = data['energy'].sum()
+    water = data['water'].sum()
+    transport = data['transport'].sum()
+
+    pie_chart = base64.b64encode(footprint_pie(goods, food, energy, water, transport)).decode('utf-8')
+    tpy_vs_average = base64.b64encode(footprint_vs_average(data)).decode('utf-8')
+    stacked = base64.b64encode(stacked_footprint(data)).decode('utf-8')
+    category_lines = base64.b64encode(line_by_category(data)).decode('utf-8')
+    area, solution = problem_area(goods, food, energy, water, transport)    
     
-    return render_template('stats.html', logged_in=session.get('logged', False))
+    return render_template('stats.html', pie_chart=pie_chart, tpy_vs_average=tpy_vs_average, 
+                           stacked=stacked, category_lines=category_lines, area=area, solution=solution, 
+                           area=area, solution=solution, logged_in=session.get('logged', False))
 
 @app.route("/data.html")
 def data():
