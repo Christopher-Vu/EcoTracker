@@ -11,7 +11,7 @@ example_data = pd.DataFrame({
     'date': ['2023-01-01', '2023-01-02', '2023-01-03', '2023-01-04', '2023-01-05'],
     'period': ['30', '30', '30', '30', '30'],
     'footprint': [25, 30, 20, 35, 40],
-    'tpy': ['6000', '6000', '6000', '6000', '6000'],
+    'tpy': [25, 30, 20, 35, 30],
     'comparison': ['e', 'e', 'e', 'e', 'e'],
     'comparison_context': ['e', 'e', 'e', 'e', 'e'],
     'avg_footprint': [30, 30, 30, 20, 20],
@@ -59,7 +59,7 @@ def footprint_vs_average(data):
 
     fig, ax = plt.subplots()
     ax.plot(data['avg_footprint'], color="white", linewidth="2")
-    ax.plot(data['footprint'], color='black', label='Footprint', markersize=5, marker="o")
+    ax.plot(data['tpy'], color='black', label='Footprint', markersize=5, marker="o")
 
     # Red/Green above/below average
     ax.fill_between(data.index, data['avg_footprint'], color='green', alpha=.1)
@@ -68,7 +68,7 @@ def footprint_vs_average(data):
     # Labels
     ax.set_xlabel('Date')
     ax.set_xticklabels(data.index.strftime('%Y-%m-%d'), rotation=45, ha='right')
-    ax.set_ylabel('Carbon Footprint (tons of CO2)')
+    ax.set_ylabel('Carbon Footprint (tons of CO2 per year)')
     ax.set_ylim(bottom=0)
     ax.legend()
 
@@ -84,8 +84,15 @@ def stacked_footprint(data):
     data['date'] = pd.to_datetime(data['date'])
     data.set_index('date', inplace=True)
 
+
     colors = ['#BDB76B', '#D2B48C', '#00CED1', '#2E8B57', '#708090']
-    y1, y2, y3, y4, y5 = data['goods'], data['food'], data['water'], data['energy'], data['transport']
+    multipliers = data.apply(find_multiplier, axis=1).tolist() # multiplier list
+    y1, y2, y3, y4, y5 = data['goods'].tolist(), data['food'].tolist(), data['water'].tolist(), data['energy'].tolist(), data['transport'].tolist()
+    counts = [0, 1, 2, 3, 4] # stop judging I know it's suboptimal
+
+    for lst in [y1, y2, y3, y4, y5]:
+        for val, multiplier, count in zip(lst, multipliers, counts):
+            lst[count] = val * multiplier
     
     fig, ax = plt.subplots()
     ax.bar(data.index, y1, color=colors[0], label="goods")
@@ -107,8 +114,15 @@ def line_by_category(data):
     data.set_index('date', inplace=True)
 
     colors = ['#BDB76B', '#D2B48C', '#00CED1', '#2E8B57', '#708090']
+    multipliers = data.apply(find_multiplier, axis=1).tolist() # multiplier list
     lines = [data['goods'], data['food'], data['water'], data['energy'], data['transport']]
     labels = ['goods', 'food', 'water', 'energy', 'transport']
+    counts = [0, 1, 2, 3, 4] # stop judging I know it's suboptimal
+
+    for lst in lines:
+        for val, multiplier, count in zip(lst, multipliers, counts):
+            lst[count] = val * multiplier
+
     
     fig, ax = plt.subplots()
     for line, color, label in zip(lines, colors, labels):
@@ -117,7 +131,7 @@ def line_by_category(data):
 
     ax.set_xlabel('Date')
     ax.set_xticklabels(data.index.strftime('%Y-%m-%d'), rotation=45, ha='right')
-    ax.set_ylabel('Carbon Footprint (tons of CO2)')
+    ax.set_ylabel('Carbon Footprint (tons of CO2 per year)')
     ax.set_ylim(bottom=0)
     ax.legend(loc="upper left")
 
@@ -126,3 +140,7 @@ def line_by_category(data):
     buffer.seek(0)
 
     return buffer.getValue()
+
+# Standardizes footprints by multipling it by tpy/footprint
+def find_multiplier(row):
+    return row['tpy'] / row['footprint']
