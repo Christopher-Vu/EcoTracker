@@ -216,12 +216,7 @@ a, a:active {
     pad: 10px 0 10px 0;
 }
 
-.login-input::placeholder {
-    color: white;
-}
-
 .login-input {
-    color: white;
     height: 45px;
     width: 87%;
     border: none;
