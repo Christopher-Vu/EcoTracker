@@ -262,7 +262,9 @@ a, a:active {
 
 .calc-title{
     transition: 0.3s;
-    margin-bottom: 10px;
+    padding-top: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
     border-radius: 30px;
     color: #FFF;
     background-color: rgba(54, 69, 79, 0.5);
