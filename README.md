@@ -1,5 +1,5 @@
 # EcoTracker
-EcoTracker is a web-based carbon footprint calculator that allows you to accurately quantify your carbon footprint, compare it to the carbon footprint of others at your income level, and measure your improvement or regression over time. It offers a logger to document your carbon emissions in real-time and generate statistics to track your emissions. Originally built for Launch Hacks II and continued for around 3 days after it's completion.
+EcoTracker is a web-based carbon footprint calculator that allows you to accurately quantify your carbon footprint, compare it to the carbon footprint of others at your income level, and measure your improvement or regression over time. It offers a logger to document your carbon emissions in real-time and generate statistics to track your emissions. Built for the 2023 Congressional App Challenge.
 
 ## Features
 - Accurately quantify your carbon footprint using our carbon footprint calculator.
