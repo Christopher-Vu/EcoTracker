@@ -1,8 +1,10 @@
-from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt #https://matplotlib.org/stable/gallery/user_interfaces/web_application_server_sgskip.html
+#next time don't use plt ^^^ use Figure 
 import matplotlib as mpl
 import pandas as pd
 import numpy as np
 from io import BytesIO
+from matplotlib.figure import Figure
 
 # Example dataframe for testing
 # date, period, footprint, tpy, comparison, comparison_context, avg_footprint, goods, food, energy, water, transport
@@ -41,19 +43,22 @@ def footprint_pie(goods, food, water, energy, transport):
     colors = ['#BDB76B', '#D2B48C', '#00CED1', '#2E8B57', '#708090']
     
     # Make pie chart
-    fig, ax = plt.subplots()
+    fig = Figure()
+    ax = fig.subplots()
     ax.pie(sizes, labels=labels, colors=colors, startangle=90, shadow=True, wedgeprops={'edgecolor': 'black', 'width': 0.3})
     ax.axis('equal')
 
     # Convert to bytecode
     buffer = BytesIO()
-    plt.savefig(buffer, format='png', dpi=300, bbox_inches='tight')
-    buffer.seek(0)
+    fig.savefig(buffer, format='png', dpi=300, bbox_inches='tight')
+    #buffer.seek(0)
 
     return buffer.getvalue()
     
 def footprint_vs_average(data):
-    fig, ax = plt.subplots()
+    fig = Figure()
+    ax = fig.subplots()
+
     ax.plot(data['avg_footprint'], color="white", linewidth="2")
     ax.plot(data['tpy'], color='black', label='Footprint', markersize=5, marker="o")
 
@@ -71,7 +76,7 @@ def footprint_vs_average(data):
 
     # Convert to bytecode
     buffer = BytesIO()
-    plt.savefig(buffer, format='png', dpi=300, bbox_inches='tight')
+    fig.savefig(buffer, format='png', dpi=300, bbox_inches='tight')
     buffer.seek(0)
 
     return buffer.getvalue()
@@ -86,7 +91,8 @@ def stacked_footprint(data):
         for val, multiplier, count in zip(lst, multipliers, counts):
             lst[count] = val * multiplier
     
-    fig, ax = plt.subplots()
+    fig = Figure()
+    ax = fig.subplots()
 
     bwidth=50
     ax.bar(data.index, y1, bottom=0, color='#BDB76B', label="goods", width=bwidth)
@@ -102,7 +108,7 @@ def stacked_footprint(data):
     ax.set_xlabel('Date')
 
     buffer = BytesIO()
-    plt.savefig(buffer, format='png', dpi=300, bbox_inches='tight')
+    fig.savefig(buffer, format='png', dpi=300, bbox_inches='tight')
     buffer.seek(0)
 
     return buffer.getvalue()
@@ -110,16 +116,16 @@ def stacked_footprint(data):
 def line_by_category(data):
     colors = ['#BDB76B', '#D2B48C', '#00CED1', '#2E8B57', '#708090']
     multipliers = data.apply(find_multiplier, axis=1).tolist() # multiplier list
-    lines = [data['goods'], data['food'], data['water'], data['energy'], data['transport']]
+    lines = [data['goods'].tolist(), data['food'].tolist(), data['water'].tolist(), data['energy'].tolist(), data['transport'].tolist()]
     labels = ['goods', 'food', 'water', 'energy', 'transport']
-    counts = [0, 1, 2, 3, 4] # stop judging I know it's suboptimal
 
     for lst in lines:
-        for val, multiplier, count in zip(lst, multipliers, counts):
+        for val, multiplier, count in zip(lst, multipliers, range(5)):
             lst[count] = val * multiplier
 
     
-    fig, ax = plt.subplots()
+    fig = Figure()
+    ax = fig.subplots()
     for line, color, label in zip(lines, colors, labels):
         ax.plot(line, color=color, label=label, markersize=5, marker="o")
         ax.fill_between(data.index, line, color=color, alpha=.2)
@@ -132,7 +138,7 @@ def line_by_category(data):
     ax.legend(loc="upper left")
 
     buffer = BytesIO()
-    plt.savefig(buffer, format='png', dpi=300, bbox_inches='tight')
+    fig.savefig(buffer, format='png', dpi=300, bbox_inches='tight')
     buffer.seek(0)
 
     return buffer.getvalue()
