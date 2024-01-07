@@ -1,38 +1,14 @@
+
+{% import 'navbar.html' as nav %}
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, intial-scale=1.0">
-        <meta name="author" content="Christopher Vu">
-        <meta name="description" content="Sources Used in the Creation of EcoTracker">
+    {% include 'header.html' %}
 
-        <link href="https://fonts.googleapis.com/css2?family=Hepta+Slab&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/static/style.css" type="text/css">
-        <link rel="icon" href="/static/images/Icon.png" type="image">
-        <title>EcoTracker | Sources</title>
-    </head>
 
     <body>
-        <div class="top-section">
-            <div class="navbar">
-                <a href="landing.html" class="navbar-item" style="color: #000;">HOME ⌂</a>
-                <a href="calculator.html" class="navbar-item" style="color: #000;">CALCULATOR 🖩</a>
-                <a href="logger.html" class="navbar-item" style="color: #000;">LOGGER ✎</a>
-                <a href="stats.html" class="navbar-item" style="color: #000;">STATS α</a>
-                <a href="data.html" class="navbar-item" style="color: black">DATA ⚛</a>
-                <a href="tasks.html" class="navbar-item" style="color: #000;">TASKS ☞</a>
-                <a href="sources.html" class="navbar-item" style="color: #000;">SOURCES 🕮</a>
+        {{nav.navbar(logged_in)}}
 
-                {% if not logged_in %}
-                    <a href="login.html" class="navbar-item" style="float:right; color:black;">LOG IN</a>
-                    <a href="signup.html" class="navbar-item" style="float:right; color:black;">SIGN UP</a>
-                {% endif %}
-
-                {% if logged_in %}
-                    <a href="logged_out.html" class="navbar-item" style="float:right; color:black;">LOG OUT</a>
-                {% endif %}
-            </div>
-        </div>
 
         <!--First background image-->
         <div class="bgimg-5 opacity">

@@ -1,0 +1,22 @@
+{% macro navbar(logged_in,color="#808080;") -%}
+<div class="top-section">
+    <div class="navbar">
+        <a href="landing.html" class="navbar-item" style = "color:{{color}}">HOME ⌂</a>
+        <a href="calculator.html" class="navbar-item" style = "color:{{color}}">CALCULATOR 🖩</a>
+        <a href="logger.html" class="navbar-item" style = "color:{{color}}">LOGGER ✎</a>
+        <a href="stats.html" class="navbar-item" style = "color:{{color}}">STATS α</a>
+        <a href="data.html" class="navbar-item" style = "color:{{color}}">DATA ⚛</a>
+        <a href="tasks.html" class="navbar-item" style = "color:{{color}}">TASKS ☞</a>
+        <a href="sources.html" class="navbar-item" style = "color:{{color}}">SOURCES 🕮</a>
+
+        {% if not logged_in %}
+            <a href="login.html" class="navbar-item" style="float:right; color:{{color}}">LOG IN</a>
+            <a href="signup.html" class="navbar-item" style="float:right; color:{{color}}">SIGN UP</a>
+        {% endif %}
+
+        {% if logged_in %}
+            <a href="logged_out.html" class="navbar-item" style="float:right; color:{{color}}">LOG OUT</a>
+        {% endif %}
+    </div>
+</div>
+{%- endmacro %}
